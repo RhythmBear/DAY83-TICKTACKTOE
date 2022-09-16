@@ -8,9 +8,10 @@ class TicTacToe:
         self.game_over = False
         self.score = 0
 
-        self.welcome_rules = f"Welcome to the Tic-Tac-Toe Game. " \
+        self.welcome_rules = f"\n\nWelcome to the Tic-Tac-Toe Game. " \
                              f"\nThe Rules are simple: " \
-                             f"\n-->>Player 1 goes first and is automatically assigned 'x' and Player 2 'o' " \
+                             f"\n-->>This is a 2 player Game. " \
+                             f"\n-->>Player 1 goes first and is automatically assigned 'x' and Player 2 is assigned 'o'" \
                              f"\n-->>In order to select a box to play in, make reference to the grid below" \
                              f"\n-->> If you Ever need access to the grid, Just Type 'help' in the input session. " \
                              f"\n ENJOY!!!"
@@ -66,7 +67,7 @@ class TicTacToe:
 
 
             # Append the new value to its right position
-            self.p_1.append(p1_input)
+            self.update_p1(p1_input)
             self.current_player = 'o'
 
         elif self.current_player == 'o':
@@ -100,7 +101,8 @@ class TicTacToe:
                 else:
                     print("Invalid Input Please Try Again")
 
-            self.p_2.append(p2_input)
+            # self.p_2.append(p2_input)
+            self.update_p2(p2_input)
             self.current_player = 'x'
 
     def update_markers(self):
@@ -111,10 +113,10 @@ class TicTacToe:
         # print(self.markers)
 
     def update_p1(self, pos: int):
-        self.p_1 += pos
+        self.p_1.append(pos)
 
     def update_p2(self, pos: int):
-        self.p_2 += pos
+        self.p_2.append(pos)
 
     def print_grid(self):
         self.update_markers()
@@ -124,7 +126,7 @@ class TicTacToe:
         line_2 = f" {self.markers[4]} | {self.markers[5]} | {self.markers[6]} "
         line_3 = f" {self.markers[7]} | {self.markers[8]} | {self.markers[9]} "
 
-        grid = f"{line_1} \n{h_grid} \n{line_2} \n{h_grid} \n{line_3}"
+        grid = f"\n{line_1} \n{h_grid} \n{line_2} \n{h_grid} \n{line_3} \n"
         print(grid)
 
     def check_for_winner(self):
@@ -137,22 +139,36 @@ class TicTacToe:
             if set(comb) <= set(self.p_1):
                 p1_wins = True
                 self.game_over = True
-                print("player_1 wins")
+                print("\nAyy!! player_1 wins \n")
             if set(comb) <= set(self.p_2):
                 p2_wins = True
                 self.game_over = True
-                print("player_2 wins")
+                print("\nYay!! player_2 wins \n")
 
 
-game = TicTacToe()
-game.start_game()
-print(game.welcome_rules)
-game.print_guide()
+def run_game():
+    game = TicTacToe()
+    game.start_game()
+    print(game.welcome_rules)
+    game.print_guide()
 
-while not game.game_over:
-    game.print_grid()
-    game.check_for_winner()
+    while not game.game_over:
+        game.print_grid()
+        game.check_for_winner()
 
-    if not game.game_over:
-        game.collect_input()
+        if not game.game_over:
+            game.collect_input()
+
+
+# Start Game
+end_game = False
+
+while not end_game:
+    run_game()
+    replay = input("Thanks for Playing. Type 'Y' to Play Again and 'N' to quit. -->> ").title()
+    if replay == 'Y':
+        end_game = False
+    else:
+        end_game = True
+
 
